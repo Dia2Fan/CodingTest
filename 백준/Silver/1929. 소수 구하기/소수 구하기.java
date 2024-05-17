@@ -5,20 +5,22 @@ public class Main {
         int start = sc.nextInt();
         int end = sc.nextInt();
 
-        if(start <= 2){
-            System.out.println(2);
-            start = 3;
-        }
+        boolean[] isPrime = new boolean[end + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = isPrime[1] = false;
 
-        for (int i = start; i <=end; i++) {
-            boolean checkPrime =true;
-            for (int j = 2; j*j<=i ; j++) {
-                if(i%j==0){
-                    checkPrime=false;
-                    break;
+        for (int i = 2; i * i <= end; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= end; j += i) {
+                    isPrime[j] = false;
                 }
             }
-            if(checkPrime)System.out.println(i);
+        }
+
+        for (int i = start; i <= end; i++) {
+            if (isPrime[i]) {
+                System.out.println(i);
+            }
         }
     }
 }
