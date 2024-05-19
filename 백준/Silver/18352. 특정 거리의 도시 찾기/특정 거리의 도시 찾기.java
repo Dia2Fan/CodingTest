@@ -1,56 +1,58 @@
 import java.util.*;
-public class Main{
-    static ArrayList<Integer>[] cities;
-    static int wishedDistance;
-    static boolean[] visited;
-    static int[] distance;
-    
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int citiesCount = sc.nextInt();
-        int roadsCount = sc.nextInt();
-        int Distance = sc.nextInt();
-        int startCity = sc.nextInt();
-        cities = new ArrayList[citiesCount+1];
-        visited = new boolean[citiesCount+1];
-        distance = new int[citiesCount+1];
-        wishedDistance=Distance;
-        for (int i = 0; i < citiesCount+1; i++) {
-            cities[i] = new ArrayList<>();
-        }
-        for (int i = 0; i < roadsCount; i++) {
-            int fromCity = sc.nextInt();
-            int toCity = sc.nextInt();
-            cities[fromCity].add(toCity);
-        }
-        BFS(startCity);
-        for (int i = 0; i < distance.length; i++) {
-             if(distance[i]==wishedDistance){
-                    cities[0].add(i);
-             }
-        }
-        Collections.sort(cities[0]);
-        if(!cities[0].isEmpty()){
-            for (Integer i : cities[0]) {
-                System.out.println(i);
-            }
-        }else{
-            System.out.println(-1);
-        }
+public class Main {
+  static int visited[];
+  static ArrayList<Integer>[] A;
+  static int N,M,K,X;
+  static List<Integer> answer;
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    N = scan.nextInt(); // 정점의 수
+    M = scan.nextInt(); // 간선의 수
+    K = scan.nextInt(); // 간선의 수
+    X = scan.nextInt(); // 간선의 수
+    A = new ArrayList[N + 1];
+    answer = new ArrayList<>();
+    for (int i = 1; i <= N; i++) {
+      A[i] = new ArrayList<Integer>();
     }
-    private static void BFS(int statCity){
-        ArrayDeque<Integer> deque = new ArrayDeque<>();
-        visited[statCity]=true;
-        deque.add(statCity);
-        while(!deque.isEmpty()){
-            int nowCity = deque.poll();
-            for (Integer city : cities[nowCity]) {
-                if(!visited[city]){
-                    visited[city]=true;
-                    deque.add(city);
-                    distance[city] = distance[nowCity] + 1;
-                }
-            }
-        }
+    for (int i = 0; i < M; i++) {
+      int S = scan.nextInt();
+      int E = scan.nextInt();
+      A[S].add(E);
     }
+    visited = new int[N + 1];  //방문 배열 초기화
+    for(int i=0;i<=N;i++){
+      visited[i]=-1;
+    }
+    BFS(X);
+    for(int i=0;i<=N;i++){
+      if(visited[i]==K) {
+          answer.add(i);
+      }
+    }
+    if(answer.isEmpty()){
+      System.out.println("-1");
+    }
+    else{
+      Collections.sort(answer);
+      for(int temp:answer){
+       System.out.println(temp);
+      }
+    }
+  }
+  // BFS구현
+  private static void BFS(int node) {  
+    Queue<Integer> queue = new LinkedList<Integer>();
+    queue.add(node);
+    visited[node]++;
+    while (!queue.isEmpty()) {
+      int now_node = queue.poll();
+      for (int i : A[now_node]) {
+        if (visited[i]==-1) {
+          visited[i] = visited[now_node]+1;
+          queue.add(i);
+        }
+      }
+    }
+  }
 }
