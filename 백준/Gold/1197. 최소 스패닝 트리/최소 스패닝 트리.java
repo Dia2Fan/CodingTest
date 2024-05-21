@@ -33,14 +33,13 @@ public class Main {
             int end = sc.nextInt();
             int value = sc.nextInt();
             nodeList[start].add(new Node(start,end,value));
-            nodeList[end].add(new Node(end,start,value)); // 양방향 간선 추가
         }
         ArrayList<Node> nodeOrder = new ArrayList<>();
         for (ArrayList<Node> nodes : nodeList) {
             if(nodes!=null)nodeOrder.addAll(nodes);
         }
         Collections.sort(nodeOrder);
-        for (int i = 0; i < nodeOrder.size(); i++) { // 모든 간선을 확인
+        for (int i = 0; i < nodeOrder.size(); i++) {
             if(find(nodeOrder.get(i).start)!=find(nodeOrder.get(i).end)){
                 union(nodeOrder.get(i).start,nodeOrder.get(i).end);
                 totalValue+=nodeOrder.get(i).value;
