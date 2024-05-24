@@ -16,7 +16,7 @@ public class Main {
         for (int i = 3; i <= aCount+zCount; i++) {
             for (int j = 2; j<= aCount+zCount; j++) {
                 DP[i][j] = DP[i-1][j]+DP[i-1][j-1];
-                if(DP[i][j]>1000000000) DP[i][j] = 1000000001;
+                if(DP[i][j]>1000000000) DP[i][j] = 1000000001;//항상 오버플로우 유의하기!!
             }
         }
         if(DP[aCount+zCount][aCount]<K){
