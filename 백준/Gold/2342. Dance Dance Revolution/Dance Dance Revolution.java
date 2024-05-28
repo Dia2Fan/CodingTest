@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int[][][] DDR = new int[100001][5][5];
-        int[][] mp = { { 0, 2, 2, 2, 2 }, { 2, 1, 3, 4, 3 }, { 2, 3, 1, 3, 4 }, { 2, 4, 3, 1, 3 }, { 2, 3, 4, 3, 1 } };
         int orders = sc.nextInt();
         if (orders == 0) {
             System.out.println(0);
@@ -22,10 +21,12 @@ public class Main {
                 for (int k = 0; k <= 4; k++) {
                     if (DDR[i][j][k] != 0) {
                         if (orders != k) {
-                            DDR[i + 1][orders][k] = Math.min(DDR[i + 1][orders][k] == 0 ? Integer.MAX_VALUE : DDR[i + 1][orders][k], DDR[i][j][k] + mp[j][orders]);
+                            int cost = j == 0 ? 2 : (Math.abs(orders - j) == 2 ? 4 : (orders == j ? 1 : 3));
+                            DDR[i + 1][orders][k] = Math.min(DDR[i + 1][orders][k] == 0 ? Integer.MAX_VALUE : DDR[i + 1][orders][k], DDR[i][j][k] + cost);
                         }
                         if (orders != j) {
-                            DDR[i + 1][j][orders] = Math.min(DDR[i + 1][j][orders] == 0 ? Integer.MAX_VALUE : DDR[i + 1][j][orders], DDR[i][j][k] + mp[k][orders]);
+                            int cost = k == 0 ? 2 : (Math.abs(orders - k) == 2 ? 4 : (orders == k ? 1 : 3));
+                            DDR[i + 1][j][orders] = Math.min(DDR[i + 1][j][orders] == 0 ? Integer.MAX_VALUE : DDR[i + 1][j][orders], DDR[i][j][k] + cost);
                         }
                     }
                 }
